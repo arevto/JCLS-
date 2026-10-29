@@ -3,6 +3,7 @@ import { useUI } from '../../context/UIContext';
 import { Modal } from '../common/Modal';
 import { ButtonArrow } from '../common/ButtonArrow';
 import { Calendar, Clock, MapPin, CheckCircle2, User, Mail, Ticket } from 'lucide-react';
+import { submissionService } from '../../services/submissionService';
 
 export const EventRsvpModal: React.FC = () => {
   const { selectedEvent, closeEventModal } = useUI();
@@ -18,7 +19,16 @@ export const EventRsvpModal: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim()) return;
+    if (!formData.name.trim() || !formData.email.trim()) return;
+
+    submissionService.addRsvp({
+      eventTitle: selectedEvent.title,
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      tickets: formData.tickets,
+      note: formData.note.trim()
+    });
+
     setSubmitted(true);
   };
 

@@ -83,8 +83,11 @@ export const WelcomeMissionSection: React.FC = () => {
           <div className="lg:col-span-5">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl group img-zoom-container">
               <img
-                src="/images/community-fellowship.jpg"
+                src="/images/church-community.jpg"
                 alt="Church Community Fellowship"
+                onError={(e) => {
+                  e.currentTarget.src = '/images/community-fellowship.jpg';
+                }}
                 className="w-full h-[460px] sm:h-[540px] object-cover img-zoom"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-transparent opacity-80" />

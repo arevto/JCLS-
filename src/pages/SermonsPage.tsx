@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { sermonsData, churchInfo } from '../data/churchData';
 import { useUI } from '../context/UIContext';
 import { ButtonArrow } from '../components/common/ButtonArrow';
-import { PlaceholderBadge } from '../components/common/PlaceholderBadge';
 import { Play, Search, BookOpen, Clock, Calendar, User } from 'lucide-react';
 
 export const SermonsPage: React.FC = () => {
@@ -90,9 +89,6 @@ export const SermonsPage: React.FC = () => {
                 <span className="text-xs font-semibold tracking-wider uppercase text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full">
                   Series: {featured.series}
                 </span>
-                {featured.isPlaceholder && (
-                  <PlaceholderBadge label="Video Placeholder" />
-                )}
               </div>
 
               <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-neutral-950 leading-tight">

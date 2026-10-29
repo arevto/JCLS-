@@ -1,5 +1,7 @@
 import { excelService } from './excelService';
 
+// ─── Interfaces ──────────────────────────────────────────────────────────────
+
 export interface VisitBooking {
   id: string;
   name: string;
@@ -10,7 +12,7 @@ export interface VisitBooking {
   hasKids: boolean;
   specialRequests?: string;
   submittedAt: string;
-  status: 'new' | 'assigned' | 'welcomed';
+  status: 'new' | 'assigned' | 'welcomed' | 'archived';
 }
 
 export interface PrayerSubmission {
@@ -22,6 +24,7 @@ export interface PrayerSubmission {
   confidentiality: 'pastoral' | 'prayer-team';
   submittedAt: string;
   isRead: boolean;
+  status: 'new' | 'in-progress' | 'completed' | 'archived';
 }
 
 export interface EventRsvpSubmission {
@@ -34,167 +37,210 @@ export interface EventRsvpSubmission {
   submittedAt: string;
 }
 
+export interface ContactInquiry {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  topic: string;
+  message: string;
+  submittedAt: string;
+  status: 'new' | 'in-progress' | 'contacted' | 'completed' | 'archived';
+  isRead: boolean;
+}
+
+export interface MinistryConnection {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  ministry: string;
+  message?: string;
+  consentGiven: boolean;
+  submittedAt: string;
+  status: 'new' | 'in-progress' | 'contacted' | 'completed' | 'archived';
+  isRead: boolean;
+}
+
+// ─── Storage Keys ─────────────────────────────────────────────────────────────
+
 const STORAGE_KEYS = {
-  VISITS: 'jcls_visit_bookings',
-  PRAYERS: 'jcls_prayer_submissions',
-  RSVPS: 'jcls_event_rsvps'
+  VISITS: 'jcls_visit_bookings_v2',
+  PRAYERS: 'jcls_prayer_submissions_v2',
+  RSVPS: 'jcls_event_rsvps_v2',
+  CONTACT_INQUIRIES: 'jcls_contact_inquiries_v1',
+  MINISTRY_CONNECTIONS: 'jcls_ministry_connections_v1'
 };
 
-// Initial realistic demonstration bookings so the user can immediately see how the dashboard works
-const INITIAL_VISIT_BOOKINGS: VisitBooking[] = [
-  {
-    id: 'visit-1',
-    name: 'Maria Clarissa Santos',
-    email: 'maria.santos@gmail.com',
-    phone: '+63 917 555 4321',
-    serviceName: 'Sunday Morning Worship Celebration (9:00 AM)',
-    partySize: '3 – 4 people (Family)',
-    hasKids: true,
-    specialRequests: 'First time visiting. We have a 6-year-old child who would love to join Kids Ministry.',
-    submittedAt: new Date(Date.now() - 3600000 * 4).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
-    status: 'new'
-  },
-  {
-    id: 'visit-2',
-    name: 'Kevin Paolo Reyes',
-    email: 'kevin.reyes@workmail.ph',
-    phone: '+63 928 444 8899',
-    serviceName: 'Afternoon Fellowship & Youth Praise (3:00 PM)',
-    partySize: '2 people',
-    hasKids: false,
-    specialRequests: 'Invited by a coworker for #JCLSYoungPro fellowship.',
-    submittedAt: new Date(Date.now() - 3600000 * 18).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
-    status: 'assigned'
+// ─── Helper ───────────────────────────────────────────────────────────────────
+
+const formatDate = () =>
+  new Date().toLocaleString('en-PH', { dateStyle: 'medium', timeStyle: 'short' });
+
+const generateId = (prefix: string) => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+
+function getFromStorage<T>(key: string, fallback: T[]): T[] {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T[];
+  } catch {
+    return fallback;
   }
-];
+}
+
+function setToStorage<T>(key: string, data: T[]): void {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+    window.dispatchEvent(new Event('jcls_submissions_updated'));
+  } catch (e) {
+    console.error('[submissionService] Storage error:', e);
+  }
+}
+
+// ─── Service ──────────────────────────────────────────────────────────────────
 
 export const submissionService = {
-  // --- VISIT BOOKINGS ---
+
+  // ── VISIT BOOKINGS ──────────────────────────────────────────────────────────
+
   getVisits(): VisitBooking[] {
-    try {
-      const data = localStorage.getItem(STORAGE_KEYS.VISITS);
-      if (!data) {
-        localStorage.setItem(STORAGE_KEYS.VISITS, JSON.stringify(INITIAL_VISIT_BOOKINGS));
-        // Automatically sync initial bookings to Excel repository
-        excelService.syncAllToServer(INITIAL_VISIT_BOOKINGS).catch(() => {});
-        return INITIAL_VISIT_BOOKINGS;
-      }
-      const parsed = JSON.parse(data);
-      return parsed;
-    } catch {
-      return INITIAL_VISIT_BOOKINGS;
-    }
+    return getFromStorage<VisitBooking>(STORAGE_KEYS.VISITS, []);
   },
 
   addVisit(booking: Omit<VisitBooking, 'id' | 'submittedAt' | 'status'>): VisitBooking {
-    const visits = this.getVisits();
     const newBooking: VisitBooking = {
       ...booking,
-      id: 'visit-' + Date.now(),
-      submittedAt: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
+      id: generateId('visit'),
+      submittedAt: formatDate(),
       status: 'new'
     };
-    const updated = [newBooking, ...visits];
-    try {
-      localStorage.setItem(STORAGE_KEYS.VISITS, JSON.stringify(updated));
-      window.dispatchEvent(new Event('jcls_submissions_updated'));
-      // Automatically record in the Excel repository without duplicate entries
-      excelService.syncBookingToServer(newBooking).catch(err => {
-        console.warn('[Excel Repository Sync]', err);
-      });
-    } catch (e) {
-      console.error('Error saving visit booking:', e);
-    }
+    const updated = [newBooking, ...this.getVisits()];
+    setToStorage(STORAGE_KEYS.VISITS, updated);
+    // Sync to Excel (best-effort)
+    excelService.syncBookingToServer(newBooking).catch(err => {
+      console.warn('[Excel Sync]', err);
+    });
     return newBooking;
   },
 
   updateVisitStatus(id: string, status: VisitBooking['status']) {
     const visits = this.getVisits();
-    let updatedBooking: VisitBooking | null = null;
-    const updated = visits.map(v => {
+    let updated: VisitBooking | null = null;
+    const newList = visits.map(v => {
       if (v.id === id) {
-        updatedBooking = { ...v, status };
-        return updatedBooking;
+        updated = { ...v, status };
+        return updated;
       }
       return v;
     });
-    try {
-      localStorage.setItem(STORAGE_KEYS.VISITS, JSON.stringify(updated));
-      window.dispatchEvent(new Event('jcls_submissions_updated'));
-      if (updatedBooking) {
-        // Update existing record in Excel file without duplicating
-        excelService.syncBookingToServer(updatedBooking).catch(() => {});
-      }
-    } catch (e) {
-      console.error(e);
+    setToStorage(STORAGE_KEYS.VISITS, newList);
+    if (updated) {
+      excelService.syncBookingToServer(updated).catch(() => {});
     }
   },
 
   deleteVisit(id: string) {
-    const visits = this.getVisits();
-    const updated = visits.filter(v => v.id !== id);
-    try {
-      localStorage.setItem(STORAGE_KEYS.VISITS, JSON.stringify(updated));
-      window.dispatchEvent(new Event('jcls_submissions_updated'));
-    } catch (e) {
-      console.error(e);
-    }
+    setToStorage(STORAGE_KEYS.VISITS, this.getVisits().filter(v => v.id !== id));
   },
 
-  // --- PRAYER REQUESTS ---
+  // ── PRAYER REQUESTS ─────────────────────────────────────────────────────────
+
   getPrayers(): PrayerSubmission[] {
-    try {
-      const data = localStorage.getItem(STORAGE_KEYS.PRAYERS);
-      if (!data) return [];
-      return JSON.parse(data);
-    } catch {
-      return [];
-    }
+    return getFromStorage<PrayerSubmission>(STORAGE_KEYS.PRAYERS, []);
   },
 
-  addPrayer(prayer: Omit<PrayerSubmission, 'id' | 'submittedAt' | 'isRead'>): PrayerSubmission {
-    const prayers = this.getPrayers();
+  addPrayer(prayer: Omit<PrayerSubmission, 'id' | 'submittedAt' | 'isRead' | 'status'>): PrayerSubmission {
     const newPrayer: PrayerSubmission = {
       ...prayer,
-      id: 'prayer-' + Date.now(),
-      submittedAt: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
-      isRead: false
+      id: generateId('prayer'),
+      submittedAt: formatDate(),
+      isRead: false,
+      status: 'new'
     };
-    const updated = [newPrayer, ...prayers];
-    try {
-      localStorage.setItem(STORAGE_KEYS.PRAYERS, JSON.stringify(updated));
-      window.dispatchEvent(new Event('jcls_submissions_updated'));
-    } catch (e) {
-      console.error(e);
-    }
+    setToStorage(STORAGE_KEYS.PRAYERS, [newPrayer, ...this.getPrayers()]);
     return newPrayer;
   },
 
-  // --- EVENT RSVPS ---
+  updatePrayerStatus(id: string, status: PrayerSubmission['status']) {
+    setToStorage(STORAGE_KEYS.PRAYERS, this.getPrayers().map(p =>
+      p.id === id ? { ...p, status, isRead: true } : p
+    ));
+  },
+
+  deletePrayer(id: string) {
+    setToStorage(STORAGE_KEYS.PRAYERS, this.getPrayers().filter(p => p.id !== id));
+  },
+
+  // ── EVENT RSVPs ─────────────────────────────────────────────────────────────
+
   getRsvps(): EventRsvpSubmission[] {
-    try {
-      const data = localStorage.getItem(STORAGE_KEYS.RSVPS);
-      if (!data) return [];
-      return JSON.parse(data);
-    } catch {
-      return [];
-    }
+    return getFromStorage<EventRsvpSubmission>(STORAGE_KEYS.RSVPS, []);
   },
 
   addRsvp(rsvp: Omit<EventRsvpSubmission, 'id' | 'submittedAt'>): EventRsvpSubmission {
-    const rsvps = this.getRsvps();
     const newRsvp: EventRsvpSubmission = {
       ...rsvp,
-      id: 'rsvp-' + Date.now(),
-      submittedAt: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })
+      id: generateId('rsvp'),
+      submittedAt: formatDate()
     };
-    const updated = [newRsvp, ...rsvps];
-    try {
-      localStorage.setItem(STORAGE_KEYS.RSVPS, JSON.stringify(updated));
-      window.dispatchEvent(new Event('jcls_submissions_updated'));
-    } catch (e) {
-      console.error(e);
-    }
+    setToStorage(STORAGE_KEYS.RSVPS, [newRsvp, ...this.getRsvps()]);
     return newRsvp;
+  },
+
+  // ── CONTACT INQUIRIES ───────────────────────────────────────────────────────
+
+  getContactInquiries(): ContactInquiry[] {
+    return getFromStorage<ContactInquiry>(STORAGE_KEYS.CONTACT_INQUIRIES, []);
+  },
+
+  addContactInquiry(inquiry: Omit<ContactInquiry, 'id' | 'submittedAt' | 'status' | 'isRead'>): ContactInquiry {
+    const newInquiry: ContactInquiry = {
+      ...inquiry,
+      id: generateId('contact'),
+      submittedAt: formatDate(),
+      status: 'new',
+      isRead: false
+    };
+    setToStorage(STORAGE_KEYS.CONTACT_INQUIRIES, [newInquiry, ...this.getContactInquiries()]);
+    return newInquiry;
+  },
+
+  updateContactStatus(id: string, status: ContactInquiry['status']) {
+    setToStorage(STORAGE_KEYS.CONTACT_INQUIRIES, this.getContactInquiries().map(c =>
+      c.id === id ? { ...c, status, isRead: true } : c
+    ));
+  },
+
+  deleteContactInquiry(id: string) {
+    setToStorage(STORAGE_KEYS.CONTACT_INQUIRIES, this.getContactInquiries().filter(c => c.id !== id));
+  },
+
+  // ── MINISTRY CONNECTIONS ────────────────────────────────────────────────────
+
+  getMinistryConnections(): MinistryConnection[] {
+    return getFromStorage<MinistryConnection>(STORAGE_KEYS.MINISTRY_CONNECTIONS, []);
+  },
+
+  addMinistryConnection(connection: Omit<MinistryConnection, 'id' | 'submittedAt' | 'status' | 'isRead'>): MinistryConnection {
+    const newConnection: MinistryConnection = {
+      ...connection,
+      id: generateId('connect'),
+      submittedAt: formatDate(),
+      status: 'new',
+      isRead: false
+    };
+    setToStorage(STORAGE_KEYS.MINISTRY_CONNECTIONS, [newConnection, ...this.getMinistryConnections()]);
+    return newConnection;
+  },
+
+  updateMinistryConnectionStatus(id: string, status: MinistryConnection['status']) {
+    setToStorage(STORAGE_KEYS.MINISTRY_CONNECTIONS, this.getMinistryConnections().map(c =>
+      c.id === id ? { ...c, status, isRead: true } : c
+    ));
+  },
+
+  deleteMinistryConnection(id: string) {
+    setToStorage(STORAGE_KEYS.MINISTRY_CONNECTIONS, this.getMinistryConnections().filter(c => c.id !== id));
   }
 };

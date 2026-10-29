@@ -4,7 +4,7 @@ import type { ChurchInfo, ServiceSchedule, Ministry, Sermon, ChurchEvent, Leader
  * =======================================================================
  * JESUS CHRIST LORD & SAVIOR CHURCH (JCLS) - CENTRAL DATA REPOSITORY
  * =======================================================================
- * 
+ *
  * Official Church Information:
  * - Address: 71 Hills Street Talanay Area C, Brgy. Batasan Hills, Quezon City, Metro Manila
  * - Contact: 09158744311
@@ -20,7 +20,7 @@ export const churchInfo: ChurchInfo = {
     verse: 'Go therefore and make disciples of all the nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, teaching them to observe all things that I have commanded you; and lo, I am with you always, even to the end of the age.',
     reference: 'Matthew 28:19–20'
   },
-  visionStatement: 'To be a vibrant, Christ-centered, Spirit-empowered congregation advancing God’s Kingdom, transforming lives, and raising passionate disciples in Batasan Hills, Quezon City and beyond.',
+  visionStatement: "To be a vibrant, Christ-centered, Spirit-empowered congregation advancing God's Kingdom, transforming lives, and raising passionate disciples in Batasan Hills, Quezon City and beyond.",
   missionStatement: 'Dedicated to passionate worship, sound Pentecostal teaching, loving fellowship, and intentional discipleship—empowering every believer to live out the Great Commission.',
   city: 'Quezon City',
   country: 'Philippines',
@@ -63,95 +63,127 @@ export const serviceSchedules: ServiceSchedule[] = [
     id: 'sunday-youth',
     day: 'Every Sunday',
     time: '3:00 PM – 5:00 PM',
-    name: 'Youth Fellowship (#JCLSYoungPro)',
+    name: 'Youth Fellowship (GIMIK)',
     description: 'An energetic, passionate gathering for high school and university youth to encounter the Holy Spirit, grow deep in discipleship, build authentic friendships, and live boldly for Christ.',
     location: 'Main Sanctuary • 71 Hills Street, Batasan Hills',
     isOnlineStreamed: false,
     isPlaceholder: false
   },
   {
-    id: 'saturday-rehearsals',
+    id: 'saturday-worship-devotion',
     day: 'Every Saturday',
-    time: '5:00 PM – 9:00 PM',
-    name: 'Musicians & Worship Team Rehearsal',
-    description: 'Dedicated spiritual preparation, prayer, vocal harmonization, and instrumental rehearsals for our praise and worship musicians preparing for Sunday ministry.',
+    time: '5:00 PM – 6:00 PM',
+    name: 'Worship Ministry – Group Devotion',
+    description: 'Spiritual preparation and group devotion for our worship ministry team before rehearsal.',
+    location: 'Music Sanctuary • 71 Hills Street, Batasan Hills',
+    isOnlineStreamed: false,
+    isPlaceholder: false
+  },
+  {
+    id: 'saturday-worship-rehearsal',
+    day: 'Every Saturday',
+    time: '6:00 PM – 9:00 PM',
+    name: 'Worship Ministry – Rehearsal',
+    description: 'Dedicated vocal harmonization, instrumental rehearsals, and prayer for our praise and worship musicians preparing for Sunday ministry.',
     location: 'Music Sanctuary • 71 Hills Street, Batasan Hills',
     isOnlineStreamed: false,
     isPlaceholder: false
   }
 ];
 
+/**
+ * Six confirmed ministries with exact schedules as specified.
+ */
 export const ministriesData: Ministry[] = [
   {
-    id: 'worship-creative',
-    name: 'Worship & Music Ministry',
+    id: 'worship-ministry',
+    name: 'Worship Ministry',
     category: 'worship',
     tagline: 'Leading the congregation into spirit-filled adoring praise of Jesus.',
     description: 'Our musicians, vocalists, and sound team prepare weekly in prayer and practice to foster an atmosphere where the Holy Spirit moves freely and Jesus Christ is glorified.',
-    schedule: 'Rehearsals: Saturdays from 5:00 PM – 9:00 PM | Services: Sundays',
+    schedule: 'Group Devotion: Every Saturday, 5:00 PM–6:00 PM | Worship Rehearsal: Every Saturday, 6:00 PM–9:00 PM',
+    scheduleLines: [
+      { label: 'Group Devotion', time: 'Every Saturday, 5:00 PM – 6:00 PM' },
+      { label: 'Worship Rehearsal', time: 'Every Saturday, 6:00 PM – 9:00 PM' }
+    ],
     audience: 'Vocalists, musicians, audio-visual technical team',
-    image: '/images/hero-worship.jpg',
-    leaderTitle: 'Worship Ministry Lead',
+    image: '/images/worship.jpg',
+    leaderTitle: 'Music Ministry Director',
     isPlaceholder: false
   },
   {
-    id: 'young-pro',
+    id: 'young-professionals',
     name: 'Young Professionals Ministry',
     category: 'generation',
-    tagline: 'Equipping believers to shine as Christ’s ambassadors in the workplace.',
+    tagline: 'Equipping believers to shine as Christ\'s ambassadors in the workplace.',
     description: 'Mentoring young working adults in career excellence, biblical ethics, kingdom stewardship, and authentic Christian brotherhood and sisterhood.',
-    schedule: 'Every 2nd and 3rd Sunday at 1:30 PM – 3:00 PM',
+    schedule: 'Every 2nd and 3rd Sunday, 1:30 PM – 3:00 PM',
+    scheduleLines: [
+      { label: 'Fellowship Meeting', time: 'Every 2nd and 3rd Sunday, 1:30 PM – 3:00 PM' }
+    ],
     audience: 'Graduates, working professionals, and career builders',
-    image: '/images/community-fellowship.jpg',
-    leaderTitle: 'Young Pro Director',
+    image: '/images/young-professionals.jpg',
+    leaderTitle: 'Young Professionals Leader',
     isPlaceholder: false
   },
   {
-    id: 'youth-generation',
-    name: 'Youth Fellowship (#JCLSYoungPro)',
+    id: 'youth-fellowship',
+    name: 'Youth Fellowship (GIMIK)',
     category: 'generation',
     tagline: 'Raising an unashamed generation ablaze for the Gospel.',
     description: 'A dynamic, welcoming environment where students navigate teen and college life, experience the power of the Holy Spirit, and build lasting godly friendships.',
-    schedule: 'Sundays at 3:00 PM – 5:00 PM',
+    schedule: 'Every Sunday, 3:00 PM – 5:00 PM',
+    scheduleLines: [
+      { label: 'Youth Fellowship', time: 'Every Sunday, 3:00 PM – 5:00 PM' }
+    ],
     audience: 'High school and university students',
-    image: '/images/youth-ministry.jpg',
-    leaderTitle: 'Youth Pastor / Coordinator',
+    image: '/images/youth.jpg',
+    leaderTitle: 'Youth Leader',
     isPlaceholder: false
   },
   {
-    id: 'kids-kingdom',
-    name: 'JCLS Children’s Church',
+    id: 'children-ministry',
+    name: 'Children Ministry',
     category: 'generation',
-    tagline: 'Instilling God’s Word and love into young hearts.',
+    tagline: 'Instilling God\'s Word and love into young hearts.',
     description: 'Fun, age-appropriate Bible lessons, energetic praise songs, crafts, and caring teachers providing a safe, joyful atmosphere during our Sunday Morning Service.',
-    schedule: 'Sundays at 9:00 AM – 12:00 NN (Concurrent with Main Service)',
-    audience: 'Ages 2 to 12 (Toddlers to Grade 6)',
-    image: '/images/kids-ministry.jpg',
-    leaderTitle: 'Children’s Ministry Team',
+    schedule: 'Every Sunday, 10:00 AM – 11:00 AM',
+    scheduleLines: [
+      { label: 'Children\'s Class', time: 'Every Sunday, 10:00 AM – 11:00 AM' }
+    ],
+    audience: 'Children (Toddlers to Grade 6)',
+    image: '/images/children.jpg',
+    leaderTitle: 'Children Ministry Coordinator',
     isPlaceholder: false
   },
   {
-    id: 'prayer-intercession',
-    name: 'Intercession & Pastoral Care',
+    id: 'womens-ministry',
+    name: 'Women\'s Ministry',
     category: 'care',
-    tagline: 'Standing in the gap through fervent prayer and compassionate care.',
-    description: 'A devoted ministry committed to praying over church family needs, visiting the sick, hospital care, and interceding for revival in Batasan Hills and Quezon City.',
-    schedule: 'Weekly Intercessory Prayer & Post-Service Ministry',
-    audience: 'Open to all seeking prayer or called to intercede',
-    image: '/images/prayer-ministry.jpg',
-    leaderTitle: 'Prayer Ministry Coordinator',
+    tagline: 'Empowering women to walk boldly in faith, purpose, and community.',
+    description: 'A nurturing sisterhood where women grow together in God\'s Word, support one another through life\'s seasons, and discover their unique callings in Christ.',
+    schedule: 'Every 1st and 4th Sunday, 1:30 PM – 3:00 PM',
+    scheduleLines: [
+      { label: 'Women\'s Meeting', time: 'Every 1st and 4th Sunday, 1:30 PM – 3:00 PM' }
+    ],
+    audience: 'Women of all ages',
+    image: '/images/womens.jpg',
+    leaderTitle: 'Women\'s Ministry Leader',
     isPlaceholder: false
   },
   {
-    id: 'discipleship-evangelism',
-    name: 'Discipleship & Community Outreach',
-    category: 'outreach',
-    tagline: 'Fulfilling the Great Commission of Matthew 28:19–20.',
-    description: 'Actively bringing Christ’s love to the communities of Talanay and Batasan Hills through cell groups, community evangelism, compassion ministry, and believer baptism classes.',
-    schedule: 'Weekly Cell Gatherings & Monthly Outreach',
-    audience: 'Volunteers and community seekers',
-    image: '/images/pastor-preaching.jpg',
-    leaderTitle: 'Outreach & Cell Ministry Coordinator',
+    id: 'mens-ministry',
+    name: 'Men\'s Ministry',
+    category: 'care',
+    tagline: 'Building men of integrity, faith, and godly leadership.',
+    description: 'A brotherhood committed to helping men grow as servant leaders in their homes, churches, and communities through accountability, prayer, and Scripture.',
+    schedule: 'Every 2nd and 3rd Sunday, 1:30 PM – 3:00 PM',
+    scheduleLines: [
+      { label: 'Men\'s Meeting', time: 'Every 2nd and 3rd Sunday, 1:30 PM – 3:00 PM' }
+    ],
+    audience: 'Men of all ages',
+    image: '/images/mens.jpg',
+    leaderTitle: 'Men\'s Ministry Leader',
     isPlaceholder: false
   }
 ];
@@ -161,14 +193,14 @@ export const sermonsData: Sermon[] = [
     id: 'sermon-1',
     title: 'The Great Commission: Walking in Divine Authority',
     series: 'Go and Make Disciples',
-    speaker: 'Pastor in Charge',
+    speaker: 'Rev. Zaldy Ordonio',
     speakerRole: 'Senior Pastor',
     date: 'October 11, 2026',
     passage: 'Matthew 28:18–20',
     description: 'Jesus gave His Church a mandate backed by all authority in heaven and on earth. Discover how every believer in Batasan Hills is called and anointed to be a disciple-maker.',
     duration: '45 min',
-    videoUrl: 'https://www.youtube.com/embed/g3m7r59pQZ0', // Dignified Christian praise & worship reflection
-    thumbnail: '/images/pastor-preaching.jpg',
+    videoUrl: 'https://www.youtube.com/embed/g3m7r59pQZ0',
+    thumbnail: '/images/message-01.jpg',
     notes: [
       'All authority in heaven and earth belongs to Jesus Christ.',
       'The Great Commission is not a suggestion; it is the heartbeat of the Church.',
@@ -183,14 +215,14 @@ export const sermonsData: Sermon[] = [
     id: 'sermon-2',
     title: 'Empowered by the Holy Spirit: The Pentecostal Reality',
     series: 'Spirit-Filled Living',
-    speaker: 'Pastor in Charge',
+    speaker: 'Rev. Zaldy Ordonio',
     speakerRole: 'Senior Pastor',
     date: 'October 4, 2026',
     passage: 'Acts 2:1–4, 38–39',
     description: 'The baptism in the Holy Spirit is an experience promised to all believers, empowering us with divine boldness, supernatural gifts, and a passion for witness.',
     duration: '48 min',
     videoUrl: 'https://www.youtube.com/embed/g3m7r59pQZ0',
-    thumbnail: '/images/hero-worship.jpg',
+    thumbnail: '/images/message-02.jpg',
     notes: [
       'The Holy Spirit empowers our witness beyond human strength.',
       'Speaking in other tongues as the Spirit enables is the initial physical evidence.',
@@ -204,14 +236,14 @@ export const sermonsData: Sermon[] = [
     id: 'sermon-3',
     title: 'Divine Healing: Christ the Healer Still Today',
     series: 'Fundamental Truths',
-    speaker: 'Pastoral Team',
-    speakerRole: 'Associate Minister',
+    speaker: 'Rev. Zaldy Ordonio',
+    speakerRole: 'Senior Pastor',
     date: 'September 27, 2026',
     passage: 'Isaiah 53:4–5 & James 5:14–16',
-    description: 'By His stripes we are healed. Exploring God’s covenant promise of physical and emotional healing provided through Christ’s redemptive work at Calvary.',
+    description: 'By His stripes we are healed. Exploring God\'s covenant promise of physical and emotional healing provided through Christ\'s redemptive work at Calvary.',
     duration: '42 min',
     videoUrl: 'https://www.youtube.com/embed/g3m7r59pQZ0',
-    thumbnail: '/images/prayer-ministry.jpg',
+    thumbnail: '/images/message-03.jpg',
     notes: [
       'Christ bore our infirmities and carried our sorrows on the cross.',
       'The prayer of faith will save the sick, and the Lord will raise them up.',
@@ -220,123 +252,66 @@ export const sermonsData: Sermon[] = [
     keyVerses: ['Isaiah 53:4-5', 'Matthew 8:16-17', 'James 5:14-16'],
     isFeatured: false,
     isPlaceholder: false
-  },
-  {
-    id: 'sermon-4',
-    title: 'The Blessed Hope: Anchored in Christ’s Imminent Return',
-    series: 'End Times & Hope',
-    speaker: 'Pastor in Charge',
-    speakerRole: 'Senior Pastor',
-    date: 'September 20, 2026',
-    passage: '1 Thessalonians 4:13–18 & Titus 2:13',
-    description: 'In an uncertain world, our hope is anchored in the visible, triumphant return of Jesus Christ to gather His Church and establish His righteous kingdom.',
-    duration: '40 min',
-    videoUrl: 'https://www.youtube.com/embed/g3m7r59pQZ0',
-    thumbnail: '/images/youth-ministry.jpg',
-    notes: [
-      'Looking for the blessed hope and glorious appearing of our great God and Savior.',
-      'The dead in Christ will rise first, and we who are alive will be caught up together.',
-      'Live with expectancy, holy conduct, and urgency in evangelism.'
-    ],
-    keyVerses: ['1 Thessalonians 4:16-17', 'Titus 2:13', 'Revelation 22:20'],
-    isFeatured: false,
-    isPlaceholder: false
   }
 ];
 
+/**
+ * Only the confirmed upcoming event.
+ * Per specification: Annual Church Thanksgiving, November 22, 2026.
+ * No time, venue details beyond church address, or invented program.
+ */
 export const churchEvents: ChurchEvent[] = [
   {
-    id: 'event-1',
-    title: 'Annual Church Anniversary & Thanksgiving Celebration',
+    id: 'event-thanksgiving-2026',
+    title: 'Annual Church Thanksgiving',
     category: 'conference',
-    dateDisplay: 'Sunday, November 8, 2026',
-    isoDate: '2026-11-08',
-    time: '9:00 AM – 1:00 PM',
-    location: 'JCLS Sanctuary • 71 Hills Street, Batasan Hills, QC',
-    description: 'Join us as we give all glory to God for His faithfulness to Jesus Christ Lord & Savior Church with combined praise, special presentations, and an anniversary feast.',
-    image: '/images/hero-worship.jpg',
-    registrationRequired: true,
-    registrationStatus: 'open',
+    dateDisplay: 'Sunday, November 22, 2026',
+    isoDate: '2026-11-22',
+    time: 'To be announced',
+    location: 'Jesus Christ Lord & Savior Church • 71 Hills Street, Talanay Area C, Batasan Hills, QC',
+    description: 'Join us as we gather together in gratitude and celebration to give all glory to God for His faithfulness to Jesus Christ Lord & Savior Church. Additional details including the program schedule will be announced by our church leadership.',
+    image: '/images/church-thanksgiving.jpg',
+    registrationRequired: false,
     highlight: true,
-    isPlaceholder: false
-  },
-  {
-    id: 'event-2',
-    title: 'Ignite: Youth & Young Pro Night of Worship',
-    category: 'youth',
-    dateDisplay: 'Every Sunday',
-    isoDate: '2026-10-25',
-    time: '1:30 PM (Young Pro) & 3:00 PM (Youth)',
-    location: 'JCLS Sanctuary • 71 Hills Street, Batasan Hills, QC',
-    description: 'An uplifting gathering featuring praise and worship, personal testimonies, and an empowering message for students and working young adults (#JCLSYoungPro).',
-    image: '/images/youth-ministry.jpg',
-    registrationRequired: false,
-    highlight: false,
-    isPlaceholder: false
-  },
-  {
-    id: 'event-3',
-    title: 'Musicians & Praise Team Rehearsal',
-    category: 'fellowship',
-    dateDisplay: 'Every Saturday',
-    isoDate: '2026-10-24',
-    time: '5:00 PM – 9:00 PM',
-    location: 'JCLS Sanctuary • 71 Hills Street, Batasan Hills, QC',
-    description: 'Weekly team practice, prayer, and vocal harmonization for our instrumentalists, sound technicians, and singers preparing for Sunday celebration.',
-    image: '/images/hero-worship.jpg',
-    registrationRequired: false,
-    highlight: false,
-    isPlaceholder: false
-  },
-  {
-    id: 'event-4',
-    title: 'Believer’s Water Baptism & Discipleship Class',
-    category: 'fellowship',
-    dateDisplay: 'Saturday, November 21, 2026',
-    isoDate: '2026-11-21',
-    time: '8:00 AM – 12:00 PM',
-    location: 'JCLS Grounds & Baptismal Pool',
-    description: 'Public identification with Jesus Christ in His death, burial, and resurrection through water baptism by immersion according to the Scriptures.',
-    image: '/images/community-fellowship.jpg',
-    registrationRequired: true,
-    registrationStatus: 'open',
-    highlight: false,
     isPlaceholder: false
   }
 ];
 
+/**
+ * Confirmed church leadership.
+ */
 export const leadershipTeam: Leader[] = [
   {
-    id: 'pastor-head',
-    name: 'Senior Pastor & Head Minister',
+    id: 'pastor-zaldy-ordonio',
+    name: 'Rev. Zaldy Ordonio',
     role: 'Senior Pastor',
     bio: 'Faithfully shepherding the flock of Jesus Christ Lord & Savior Church in Batasan Hills, preaching the uncompromised Word of God and casting vision for regional revival and kingdom discipleship.',
-    image: '/images/pastor-preaching.jpg',
-    isPlaceholder: true
+    image: '/images/pastor-zaldy-ordonio.jpg',
+    isPlaceholder: false
   },
   {
-    id: 'pastor-associate',
-    name: 'Associate Pastor & Pastoral Care',
-    role: 'Associate Pastor',
-    bio: 'Overseeing member visitation, family counseling, cell group discipleship, and hospital prayer ministry with a compassionate shepherd’s heart.',
-    image: '/images/community-fellowship.jpg',
-    isPlaceholder: true
+    id: 'rogin-ordonio',
+    name: 'Sis. Rogin Ordonio',
+    role: 'Young Professionals Leader',
+    bio: 'Guiding young working adults and professionals into Christlike character, purposeful living, and bold evangelism within the marketplace and beyond.',
+    image: '/images/rogin-ordonio.jpg',
+    isPlaceholder: false
   },
   {
-    id: 'leader-youngpro-youth',
-    name: 'Youth & Young Professionals Director',
-    role: 'Youth & Marketplace Ministry',
-    bio: 'Guiding university students and marketplace professionals into Christlike character, purposeful living, and bold evangelism throughout Metro Manila.',
-    image: '/images/youth-ministry.jpg',
-    isPlaceholder: true
+    id: 'genrev-ordonio',
+    name: 'Bro. Genrev Ordonio',
+    role: 'Music Ministry Director',
+    bio: 'Leading our Saturday worship rehearsals and guiding Sunday praise and worship into spirit-filled excellence that exalts the Lord Jesus Christ.',
+    image: '/images/genrev-ordonio.jpg',
+    isPlaceholder: false
   },
   {
-    id: 'leader-worship',
-    name: 'Worship & Creative Arts Director',
-    role: 'Music Ministry Leader',
-    bio: 'Leading our Saturday musician rehearsals (5:00 PM – 9:00 PM) and guiding Sunday worship into spirit-filled praise exalting the Lord Jesus Christ.',
-    image: '/images/hero-worship.jpg',
-    isPlaceholder: true
+    id: 'isaiah-ordonio',
+    name: 'Bro. Isaiah Ordonio',
+    role: 'Youth Leader',
+    bio: 'Discipling the next generation—high school and university students—to walk boldly in faith, build godly friendships, and live unashamed for Christ.',
+    image: '/images/isaiah-ordonio.jpg',
+    isPlaceholder: false
   }
 ];
 
@@ -378,7 +353,7 @@ export const beliefsData: BeliefItem[] = [
   {
     id: 'truth-5',
     topic: '5. The Salvation of Man',
-    summary: 'Salvation comes through Jesus Christ alone, by God’s grace, received through repentance and faith.',
+    summary: 'Salvation comes through Jesus Christ alone, by God\'s grace, received through repentance and faith.',
     scriptureReferences: ['Luke 24:47', 'John 3:3', 'Romans 10:13–15', 'Ephesians 2:8', 'Titus 2:11'],
     details: 'Man\'s only hope of redemption is through the shed blood of Jesus Christ the Son of God. Salvation is received through repentance toward God and faith toward the Lord Jesus Christ, resulting in inward evidence of the Spirit and outward evidence of a life of righteousness.'
   },
@@ -427,7 +402,7 @@ export const beliefsData: BeliefItem[] = [
   {
     id: 'truth-12',
     topic: '12. Divine Healing',
-    summary: 'Divine healing is provided through Christ’s redemptive work and is available to believers.',
+    summary: 'Divine healing is provided through Christ\'s redemptive work and is available to believers.',
     scriptureReferences: ['Isaiah 53:4–5', 'Matthew 8:16–17', 'James 5:14–16'],
     details: 'Divine healing is an integral part of the gospel. Deliverance from sickness is provided for in the atonement, and is the privilege of all believers through the prayer of faith.'
   },
@@ -465,7 +440,7 @@ export const coreValues = [
   {
     title: 'Presence-Driven Worship',
     subtitle: 'Exalting Jesus Above All',
-    description: 'We believe that true transformation happens when God’s manifest presence is welcomed and honored in reverent, spirit-led praise.'
+    description: 'We believe that true transformation happens when God\'s manifest presence is welcomed and honored in reverent, spirit-led praise.'
   },
   {
     title: 'Pentecostal Power',
@@ -485,6 +460,6 @@ export const coreValues = [
   {
     title: 'Kingdom Impact',
     subtitle: 'Light to Quezon City & Beyond',
-    description: 'Empowered by the Spirit, we serve our community with compassion, generosity, and bold evangelism to manifest Christ’s love.'
+    description: 'Empowered by the Spirit, we serve our community with compassion, generosity, and bold evangelism to manifest Christ\'s love.'
   }
 ];

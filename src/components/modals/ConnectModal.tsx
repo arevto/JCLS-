@@ -3,6 +3,7 @@ import { useUI } from '../../context/UIContext';
 import { Modal } from '../common/Modal';
 import { ButtonArrow } from '../common/ButtonArrow';
 import { CheckCircle2, User, Mail, Phone, Sparkles } from 'lucide-react';
+import { submissionService } from '../../services/submissionService';
 
 export const ConnectModal: React.FC = () => {
   const { selectedMinistry, closeMinistryModal } = useUI();
@@ -19,7 +20,17 @@ export const ConnectModal: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim()) return;
+    if (!formData.name.trim() || !formData.email.trim()) return;
+
+    submissionService.addMinistryConnection({
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      ministry: selectedMinistry.name,
+      message: `[Interest: ${formData.interest}] ${formData.message.trim()}`.trim(),
+      consentGiven: true
+    });
+
     setSubmitted(true);
   };
 

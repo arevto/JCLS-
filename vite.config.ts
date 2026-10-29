@@ -252,3 +252,4 @@ function excelBookingsPlugin(): Plugin {
 export default defineConfig({
   plugins: [react(), tailwindcss(), excelBookingsPlugin()],
 });
+

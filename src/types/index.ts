@@ -26,6 +26,7 @@ export interface Ministry {
   tagline: string;
   description: string;
   schedule: string;
+  scheduleLines?: { label: string; time: string }[];
   audience: string;
   image: string;
   leaderTitle: string;

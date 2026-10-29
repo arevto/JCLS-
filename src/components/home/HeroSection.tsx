@@ -13,8 +13,12 @@ export const HeroSection: React.FC = () => {
       {/* Background Cinematic Image with Subtle Zoom */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/images/hero-worship.jpg"
-          alt="Church Worship"
+          src="/images/church-hero.jpg"
+          alt="JCLS Church Worship"
+          onError={(e) => {
+            // Graceful fallback if church-hero.jpg not uploaded yet
+            e.currentTarget.src = '/images/hero-worship.jpg';
+          }}
           className="w-full h-full object-cover object-center scale-105 animate-in fade-in duration-1000 brightness-75"
         />
         {/* Cinematic Gradient Overlays */}

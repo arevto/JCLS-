@@ -50,7 +50,7 @@ export const VisitPage: React.FC = () => {
     },
     {
       q: 'Where do I park when I arrive?',
-      a: 'Our parking and greeter team will be on hand at the entrance to guide you to available parking spaces and escort you to the auditorium doors.'
+      a: 'Our church does not have a designated parking lot. Limited street parking may be available in front of the church, depending on local parking rules and availability. Most of our members travel by motorcycle. If you choose to park in front of the church, please park at your own risk, keep entrances and access routes clear, and follow all applicable parking and traffic regulations. We encourage everyone to exercise caution and prioritize their safety.'
     },
     {
       q: 'Will I be singled out as a visitor during the service?',
@@ -65,8 +65,11 @@ export const VisitPage: React.FC = () => {
       <section className="relative py-24 sm:py-32 bg-[#090b0e] text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/community-fellowship.jpg"
+            src="/images/church-visit.jpg"
             alt="Welcome to Church"
+            onError={(e) => {
+              e.currentTarget.src = '/images/community-fellowship.jpg';
+            }}
             className="w-full h-full object-cover opacity-25"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#090b0e] via-[#090b0e]/85 to-transparent" />
@@ -101,9 +104,9 @@ export const VisitPage: React.FC = () => {
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center font-serif font-bold text-lg">
               1
             </div>
-            <h3 className="font-serif text-xl font-light text-neutral-900">Easy Arrival</h3>
+            <h3 className="font-serif text-xl font-light text-neutral-900">Warm Arrival</h3>
             <p className="text-xs text-neutral-600 font-light leading-relaxed">
-              Parking marshals and greeters greet you at the entrance with a smile.
+              Friendly greeters welcome you at the entrance. Limited street parking is available in front of the church.
             </p>
           </div>
 

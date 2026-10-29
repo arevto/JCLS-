@@ -2,11 +2,11 @@ import React from 'react';
 import { churchInfo, serviceSchedules } from '../../data/churchData';
 import { useUI } from '../../context/UIContext';
 import type { PageId } from '../../types';
-import { MapPin, Phone, Mail, Clock, ArrowUp, Heart, Lock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ArrowUp, Heart } from 'lucide-react';
 import { FacebookIcon } from '../common/SocialIcons';
 
 export const Footer: React.FC = () => {
-  const { navigateTo, openPlanVisit, openAdmin } = useUI();
+  const { navigateTo, openPlanVisit } = useUI();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -158,14 +158,18 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-            <button
-              onClick={openAdmin}
-              className="hover:text-amber-300 text-neutral-400 transition-colors cursor-pointer flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-[11px]"
-              title="View visitor guest list and prayer requests"
+            <a
+              href="/admin"
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.pushState({}, '', '/admin');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+              }}
+              className="hover:text-amber-300 text-neutral-500 transition-colors flex items-center gap-1.5 text-[11px]"
+              title="Staff administration login"
             >
-              <Lock className="w-3 h-3 text-amber-400" />
-              <span>Host & Admin Dashboard</span>
-            </button>
+              Staff Login
+            </a>
             <button
               onClick={() => navigateTo('about')}
               className="hover:text-white transition-colors cursor-pointer"
