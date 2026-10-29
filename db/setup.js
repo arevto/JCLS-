@@ -63,6 +63,8 @@ async function run() {
     console.log('See .env.example for complete options.');
     process.exit(1);
   }
+
+  const dbName = process.env.DATABASE_URL ? '[from DATABASE_URL]' : config.database;
   console.log(`Connecting to PostgreSQL database: ${dbName}...`);
 
   const pool = new Pool(config);
@@ -114,7 +116,7 @@ async function run() {
 
   } catch (err) {
     console.error('\n✗ Database setup failed:');
-    console.error(err.message);
+    console.error(err);
 
     if (err.code === '3D000') {
       console.log(`\nNote: The database "${config.database}" does not exist yet.`);

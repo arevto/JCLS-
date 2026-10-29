@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS messages (
     is_published BOOLEAN NOT NULL DEFAULT TRUE,
     is_archived BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NOW() DEFAULT NOW()
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_messages_date ON messages(date DESC);
